@@ -1,0 +1,30 @@
+<div *ngIf="photoList">
+    <div class="flickr-table" infinite-scroll
+         [infiniteScrollDistance]="scrollDistance"
+         [infiniteScrollUpDistance]="scrollUpDistance"
+         [infiniteScrollThrottle]="throttle"
+         (scrolled)="onScrollDown()">
+        <ul class="flickr-feed-photos">
+            <li *ngFor="let item of photoList.items" class="flickr-feed-photo">
+                <div>
+                    <div class="flickr-feed-photo-img">
+                        <img [src]="item.media.m" />
+                    </div>
+                    <div class="flickr-feed-photo-metadata">
+                        <div class="flickr-feed-photo-title overflow-ellipsis">
+                            <span [title]="item.title">{{(stringUtils.isStringNullOrEmpty(item.title)) ? noTitlePlaceHolder : item.title}}</span>
+                        </div>
+                        <div class="flickr-feed-photo-uploader">
+                            <span>uploaded by {{item.author}} on {{item.date_taken | dateFormatter : dateFormat : daySuffixRequired }}</span>
+                        </div>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="flickr-feed-photo-tags">
+                        <span>{{stringUtils.replaceSpace(item.tags, ", ")}}</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="flickr-feed-photo-loading" *ngIf="isLoading">Loading...</div>
